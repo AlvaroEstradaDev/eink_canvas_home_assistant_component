@@ -50,7 +50,8 @@ push_random_item:
       required: true
       selector:
         media:
-          allowed_media_content_type: image
+          accept:
+            - image/*
     entity_id:
       name: Entity ID
       description: The entity ID of the media player to push the item to. If omitted, pushes to all BLOOMIN8 E-Ink Canvas players.
