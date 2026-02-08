@@ -219,6 +219,14 @@ async def _register_services(hass: HomeAssistant, entry: EinkCanvasConfigEntry) 
             add_log("No media source ID provided for push random item", "error")
             return
 
+        # Handle media selector output (which can be a dict)
+        if isinstance(media_source_id, dict):
+            media_source_id = media_source_id.get("media_content_id")
+            
+        if not media_source_id:
+            add_log("Invalid media source ID provided", "error")
+            return
+
         add_log(f"Getting random photo from {media_source_id}")
         
         try:
@@ -296,7 +304,7 @@ async def _register_services(hass: HomeAssistant, entry: EinkCanvasConfigEntry) 
             vol.Optional("overwrite_existing", default=False): bool,
         }),
         ("push_random_item", handle_push_random_item, {
-            vol.Required("media_source_id"): str,
+            vol.Required("media_source_id"): vol.Any(str, dict),
             vol.Optional("entity_id"): str,
         }),
     ]

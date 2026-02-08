@@ -49,7 +49,7 @@ push_random_item:
       description: The content ID of the media source to pick from (e.g. media-source://google_photos/...)
       required: true
       selector:
-        text:
+        media:
     entity_id:
       name: Entity ID
       description: The entity ID of the media player to push the item to. If omitted, pushes to all BLOOMIN8 E-Ink Canvas players.
