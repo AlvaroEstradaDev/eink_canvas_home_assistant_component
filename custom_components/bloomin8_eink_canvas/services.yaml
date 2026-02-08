@@ -8,6 +8,55 @@ sleep:
   description: Put the device into sleep mode
   fields: {}
 
+sync_photos:
+  name: Sync Photos
+  description: Sync photos from the device
+  fields:
+    media_source_id:
+      name: Media Source ID
+      description: The content ID of the media source to sync from (e.g. media-source://google_photos/...)
+      required: true
+      selector:
+        text:
+    target_gallery:
+      name: Target Gallery
+      description: The name of the gallery on the device to sync to
+      default: default
+      selector:
+        text:
+    max_photos:
+      name: Max Photos
+      description: Maximum number of photos to sync
+      default: 50
+      selector:
+        number:
+          min: 1
+          max: 500
+          mode: box
+    overwrite_existing:
+      name: Overwrite Existing
+      description: Whether to overwrite existing photos with the same name
+      default: false
+      selector:
+        boolean:
+
+push_random_item:
+  name: Push Random Item
+  description: Push a random item to the device
+  fields:
+    media_source_id:
+      name: Media Source ID
+      description: The content ID of the media source to pick from (e.g. media-source://google_photos/...)
+      required: true
+      selector:
+        text:
+    entity_id:
+      name: Entity ID
+      description: The entity ID of the media player to push the item to. If omitted, pushes to all BLOOMIN8 E-Ink Canvas players.
+      selector:
+        entity:
+          domain: media_player
+
 reboot:
   name: Reboot Device
   description: Restart the device
