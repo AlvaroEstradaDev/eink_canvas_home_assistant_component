@@ -190,6 +190,24 @@ async def _register_services(hass: HomeAssistant, entry: EinkCanvasConfigEntry) 
             add_log("No media source ID provided for photo sync", "error")
             return
 
+        # Handle media selector output (which can be a dict)
+        if isinstance(media_source_id, dict):
+            media_source_id = media_source_id.get("media_content_id")
+
+        if not media_source_id:
+            add_log("Invalid media source ID provided", "error")
+            return
+
+        add_log(f"Handling request to sync photos from source: {media_source_id}")
+
+        # If it looks like a file (ends with extension), try to use parent directory
+        # This allows users to pick a file in the media browser to select the folder
+        if "." in media_source_id.split("/")[-1]:
+            # It has an extension, likely a file
+            parent_dir = media_source_id.rsplit("/", 1)[0]
+            add_log(f"Selected item appears to be a file. Using parent directory as soiffurce: {parent_dir}")
+            media_source_id = parent_dir
+
         add_log(f"Starting photo sync from {media_source_id} to gallery {target_gallery}")
         
         result = await api_client.sync_photos_from_media_source(
@@ -306,7 +324,7 @@ async def _register_services(hass: HomeAssistant, entry: EinkCanvasConfigEntry) 
             vol.Optional("idx_wake_sens"): int,
         }),
         ("sync_photos", handle_sync_photos, {
-            vol.Required("media_source_id"): str,
+            vol.Required("media_source_id"): vol.Any(str, dict),
             vol.Optional("target_gallery", default="default"): str,
             vol.Optional("max_photos", default=50): int,
             vol.Optional("overwrite_existing", default=False): bool,

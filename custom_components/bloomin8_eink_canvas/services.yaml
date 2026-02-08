@@ -14,10 +14,12 @@ sync_photos:
   fields:
     media_source_id:
       name: Media Source ID
-      description: The content ID of the media source to sync from (e.g. media-source://google_photos/...)
+      description: Pick any image inside the desired folder to use that folder as the source (e.g. pick a photo in 'Vacation' to use the whole 'Vacation' album).
       required: true
       selector:
-        text:
+        media:
+          accept:
+            - image/*
     target_gallery:
       name: Target Gallery
       description: The name of the gallery on the device to sync to
