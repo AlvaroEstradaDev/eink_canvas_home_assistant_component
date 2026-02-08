@@ -46,10 +46,11 @@ push_random_item:
   fields:
     media_source_id:
       name: Media Source ID
-      description: The content ID of the media source to pick from (e.g. media-source://google_photos/...)
+      description: Pick any image inside the desired folder to use that folder as the source (e.g. pick a photo in 'Vacation' to use the whole 'Vacation' album).
       required: true
       selector:
         media:
+          allowed_media_content_type: image
     entity_id:
       name: Entity ID
       description: The entity ID of the media player to push the item to. If omitted, pushes to all BLOOMIN8 E-Ink Canvas players.

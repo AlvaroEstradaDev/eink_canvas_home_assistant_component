@@ -227,7 +227,15 @@ async def _register_services(hass: HomeAssistant, entry: EinkCanvasConfigEntry) 
             add_log("Invalid media source ID provided", "error")
             return
 
-        add_log(f"Getting random photo from {media_source_id}")
+        add_log(f"Handling request to push random item from source: {media_source_id}")
+
+        # If it looks like a file (ends with extension), try to use parent directory
+        # This allows users to pick a file in the media browser to select the folder
+        if "." in media_source_id.split("/")[-1]:
+            # It has an extension, likely a file
+            parent_dir = media_source_id.rsplit("/", 1)[0]
+            add_log(f"Selected item appears to be a file. Using parent directory as source: {parent_dir}")
+            media_source_id = parent_dir
         
         try:
             # Browse the media source to get photos (limit to 100 for random selection)
